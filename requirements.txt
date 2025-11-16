@@ -2,7 +2,7 @@
 opencv-python==4.8.0.76
 numpy
 
-# MTCNN para detección de rostros (no requiere compilación)
+# MTCNN para detección de rostros
 mtcnn==0.1.1
 
 # TensorFlow (versión compatible con Python 3.11)
@@ -11,7 +11,7 @@ tensorflow==2.15.0
 # Keras y modelos preentrenados
 keras==2.15.0
 
-# Face recognition SIN dlib (alternativa más fácil)
+# Face recognition SIN dlib
 deepface==0.0.79
 
 # Pillow para procesamiento de imágenes
