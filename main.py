@@ -1,7 +1,8 @@
-# main.py
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+from dotenv import load_dotenv
+load_dotenv()
 
 try:
     from system_core import FaceAccessControlSystem
@@ -19,7 +20,7 @@ def main():
     try:
         system = FaceAccessControlSystem()
     except Exception as e:
-        print(f"❌ Error al inicializar el sistema: {e}")
+        print(f"Error al inicializar el sistema: {e}")
         print("Asegúrate de tener instaladas las librerías necesarias (opencv-python, deepface, numpy).")
         return
 
@@ -30,48 +31,49 @@ def main():
 
     while True:
         print("\n" + "-"*60)
-        print("📋 MENÚ PRINCIPAL:")
+        print("MENÚ PRINCIPAL:")
         print("-"*60)
-        print("1. 👤 Registrar nuevo usuario")
-        print("2. 🎥 Iniciar control de acceso en tiempo real")
-        print("3. 📊 Ver estadísticas del sistema")
-        print("4. 👥 Ver usuarios registrados")
-        print("5. 🚪 Salir")
+        print("1. Registrar nuevo usuario")
+        print("2. Iniciar control de acceso en tiempo real")
+        print("3. Ver estadísticas del sistema")
+        print("4. Ver usuarios registrados")
+        print("5. Consultar asistente IA")
+        print("6. Salir")
         print("-"*60)
 
-        choice = input("\n➤ Selecciona una opción (1-5): ").strip()
+        choice = input("\n> Selecciona una opción (1-6): ").strip()
 
         if choice == '1':
             print("\n" + "="*60)
             print("REGISTRO DE NUEVO USUARIO")
             print("="*60)
-            name = input("➤ Nombre completo del usuario: ").strip()
+            name = input("> Nombre completo del usuario: ").strip()
             if not name:
-                print("❌ El nombre no puede estar vacío")
+                print("El nombre no puede estar vacío")
                 continue
 
-            email = input("➤ Email (opcional, Enter para omitir): ").strip() or None
+            email = input("> Email (opcional, Enter para omitir): ").strip() or None
 
-            print("\n📸 Opciones de foto:")
+            print("\nOpciones de foto:")
             print("1. Capturar desde cámara (recomendado)")
             print("2. Usar foto existente")
-            photo_option = input("➤ Selecciona (1-2): ").strip()
+            photo_option = input("> Selecciona (1-2): ").strip()
 
             if photo_option == '1':
                 system.register_user(name, email, photo_source='camera')
             elif photo_option == '2':
-                photo_path = input("➤ Ruta de la foto: ").strip()
+                photo_path = input("> Ruta de la foto: ").strip()
                 system.register_user(name, email, photo_source=photo_path)
             else:
-                print("❌ Opción inválida")
+                print("Opción inválida")
 
         elif choice == '2':
             print("\n" + "="*60)
             print("INICIANDO CONTROL DE ACCESO")
             print("="*60)
-            print("ℹ️  El sistema verificará rostros cada 1 segundo aprox.")
-            print("ℹ️  Presiona 'q' para detener el sistema")
-            input("\n➤ Presiona Enter para comenzar...")
+            print("El sistema verificará rostros cada 1 segundo aprox.")
+            print("Presiona 'q' para detener el sistema")
+            input("\n> Presiona Enter para comenzar...")
             system.run_access_control()
 
         elif choice == '3':
@@ -80,7 +82,7 @@ def main():
             print("="*60)
             stats = system.get_access_statistics()
 
-            print(f"\n📊 Resumen General:")
+            print(f"\nResumen General:")
             print(f"  • Usuarios registrados: {stats['total_users']}")
             print(f"  • Total de intentos de acceso: {stats['total_attempts']}")
             print(f"  • Accesos concedidos: {stats['granted']} ✅")
@@ -91,7 +93,7 @@ def main():
                 print(f"  • Tasa de éxito: {success_rate:.1f}%")
 
             if stats['recent_logs']:
-                print(f"\n📋 Últimos 5 accesos:")
+                print(f"\nÚltimos 5 accesos:")
                 for log in stats['recent_logs']:
                     user, granted, conf, timestamp = log
                     status = "✅ CONCEDIDO" if granted else "❌ DENEGADO"
@@ -104,7 +106,7 @@ def main():
             users = system.get_all_users()
 
             if not users:
-                print("\n⚠️  No hay usuarios registrados aún")
+                print("\nNo hay usuarios registrados aún")
             else:
                 print(f"\nTotal: {len(users)} usuario(s)\n")
                 for user_id, name, email, reg_date in users:
@@ -113,13 +115,29 @@ def main():
 
         elif choice == '5':
             print("\n" + "="*60)
-            print("👋 ¡Gracias por usar el sistema!")
-            print("   Desarrollado para proyecto de IA")
+            print("ASISTENTE INTELIGENTE (GROQ AI)")
+            print("="*60)
+
+            while True:
+                question = input("\n> Escribe tu pregunta (o 'salir' para volver): ")
+
+                if question.lower() == "salir":
+                    break
+
+                print("\n⏳Procesando la respuesta de la IA...\n")
+                answer = system.ask_ai(question)
+
+                print("IA:", answer)
+                
+        elif choice == '6':
+            print("\n" + "="*60)
+            print("Gracias por usar el sistema")
+            print("Desarrollado para proyecto de IA")
             print("="*60)
             break
 
         else:
-            print("\n❌ Opción inválida. Por favor selecciona 1-5")
+            print("\nOpción inválida. Por favor selecciona 1-6")
 
 
 if __name__ == "__main__":

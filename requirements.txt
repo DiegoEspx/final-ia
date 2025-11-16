@@ -17,8 +17,8 @@ deepface==0.0.79
 # Pillow para procesamiento de imágenes
 Pillow==10.0.0
 
-# Para el asistente conversacional
-openai==1.3.0
+# Asistente IA con Groq
+groq==0.34.1
 python-dotenv==1.0.0
 
 # Interfaz web

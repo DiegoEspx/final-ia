@@ -1,4 +1,3 @@
-# src/database.py
 import sqlite3
 from datetime import datetime
 
@@ -44,7 +43,7 @@ class DatabaseManager:
         
         conn.commit()
         conn.close()
-        print("✅ Base de datos inicializada")
+        print("Base de datos inicializada")
         
     # --- Operaciones de Usuario ---
 
