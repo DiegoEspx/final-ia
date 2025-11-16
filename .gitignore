@@ -1,0 +1,11 @@
+venv/
+.venv/
+access_control.db
+known_faces/
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.log
+.DS_Store # macOS
+Thumbs.db # Windows
